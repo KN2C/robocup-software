@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>Form</class>
+ <widget class="QWidget" name="Form">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>443</width>
+    <height>192</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <layout class="QGridLayout" name="gridLayout">
+   <item row="0" column="0">
+    <widget class="QTreeWidget" name="treeWidget">
+     <property name="columnCount">
+      <number>2</number>
+     </property>
+     <attribute name="headerDefaultSectionSize">
+      <number>120</number>
+     </attribute>
+     <column>
+      <property name="text">
+       <string>Item</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>Value/Status</string>
+      </property>
+     </column>
+     <item>
+      <property name="text">
+       <string>Robot No.</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Shell ID</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Encoder/ Hall </string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Radio on/off</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Visible </string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Ball Sensor</string>
+      </property>
+     </item>
+    </widget>
+   </item>
+   <item row="0" column="1">
+    <widget class="QGraphicsView" name="graphicsView"/>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
