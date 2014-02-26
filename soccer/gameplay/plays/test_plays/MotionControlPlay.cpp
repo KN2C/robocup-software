@@ -70,8 +70,8 @@ Gameplay::Plays::MotionControlPlay::MotionControlPlay(GameplayModule *gameplay):
 			float pos, vel;
 			bool notDone = trapezoid(
 				totalDist,		//	length of path
-				1.0,			//	max speed
-				1.0,			//	max acc
+				2.0,			//	max speed
+				1.5,			//	max acc
 				timeIntoLap,	//	time
 				pos,			//	pos out
 				vel 			//	vel out
@@ -88,13 +88,13 @@ Gameplay::Plays::MotionControlPlay::MotionControlPlay(GameplayModule *gameplay):
 		//	circular path
 		path = [](float timeIntoLap, Point &targetPos, Point &targetVel) {
 			const float r = 0.5;
-			const Point center(0, Field_Length / 2.0);
+			const Point center(0, Field_Length / 2.0 - r - 0.1);
 			const float circumference = 2.0*M_PI*r;
 
 			float dist, vel;
 			bool notDone = trapezoid(
 				circumference,	//	length of path
-				1.0,			//	max speed
+				0.75,			//	max speed
 				1.0,			//	max acc
 				timeIntoLap,	//	time
 				dist,			//	dist
