@@ -14,11 +14,14 @@ namespace Gameplay {
 ConfigDouble *Gameplay::Plays::MotionControlPlay::_pid_p;
 ConfigDouble *Gameplay::Plays::MotionControlPlay::_pid_i;
 ConfigDouble *Gameplay::Plays::MotionControlPlay::_pid_d;
+ConfigDouble *Gameplay::Plays::MotionControlPlay::_v_p;
 
 void Gameplay::Plays::MotionControlPlay::createConfiguration(Configuration *cfg) {
 	_pid_p = new ConfigDouble(cfg, "MotionControlPlay/pid_p", 6.5);
 	_pid_i = new ConfigDouble(cfg, "MotionControlPlay/pid_i", 0.0001);
 	_pid_d = new ConfigDouble(cfg, "MotionControlPlay/pid_d", 2);
+
+	_v_p = new ConfigDouble(cfg, "MotionControlPlay/vel_mult", 1);
 }
 
 REGISTER_PLAY_CATEGORY(Gameplay::Plays::MotionControlPlay, "Test")
@@ -149,19 +152,14 @@ bool Gameplay::Plays::MotionControlPlay::run()
 	//	how long we've been on this lap
 	float timeIntoLap = (float)((timestamp() - lapStartTime) / 1000000.0f);
 
-
+	//	query the path for where we should be
 	Point targetPos, targetVel;
 	if (!path(timeIntoLap, targetPos, targetVel)) {
 		testStarted = false;
 	}
 
-	//	draw
+	//	draw target pt
 	state()->drawCircle(targetPos, .04, Qt::blue);
-	// state()->drawLine(ptA, ptB, Qt::blue);
-
-	//	errorz
-	Point posError = targetPos - robot->pos;
-	// Point velError = targetVel - robot->vel;
 
 	//	pid config
 	_pidControllerX.kp = *_pid_p;
@@ -173,11 +171,13 @@ bool Gameplay::Plays::MotionControlPlay::run()
 	_pidControllerY.kd = *_pid_d;
 
 	//	controller
+	Point posError = targetPos - robot->pos;
+	targetVel *= *_v_p;
 	Point correctedVelocity(
 		targetVel.x + _pidControllerX.run(posError.x),
 		targetVel.y + _pidControllerY.run(posError.y)
 		);
-		 // = targetVel + _pidController.run(velError.mag())*velError / velError.mag();
+
 	robot->worldVelocity(correctedVelocity);
 
 	return true;
